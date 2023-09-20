@@ -1,0 +1,66 @@
+GowinSynthesis start
+Running parser ...
+Analyzing Verilog file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v'
+Analyzing included file 'dpi_to_mipi_tx_define.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":704)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":704)
+Analyzing included file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\static_macro_define.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":704)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":704)
+Analyzing included file 'dpi_to_mipi_tx_parameter.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":704)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":704)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3801) : Parameter 'LP01_CLK_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":1)
+WARN  (EX3801) : Parameter 'LP00_CLK_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":2)
+WARN  (EX3801) : Parameter 'HS00_CLK_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":3)
+WARN  (EX3801) : Parameter 'HSXX_CLK_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":4)
+WARN  (EX3801) : Parameter 'CLK2DATA_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":5)
+WARN  (EX3801) : Parameter 'LP01_DATA_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":6)
+WARN  (EX3801) : Parameter 'LP00_DATA_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":7)
+WARN  (EX3801) : Parameter 'HS00_DATA_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":8)
+WARN  (EX3801) : Parameter 'HSXX_DATA_DLY' becomes localparam in '~link_layer.DPI_to_MIPI_TX_Top' with formal parameter declaration list("dpi_to_mipi_tx_parameter.v":9)
+WARN  (EX3801) : Parameter '**' becomes localparam in '**' with formal parameter declaration list("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3788) : Block identifier is required on this block("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Analyzing Verilog file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx_wrap.v'
+Analyzing included file 'dpi_to_mipi_tx_define.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx_wrap.v":2)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx_wrap.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx_wrap.v":2)
+Analyzing included file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\static_macro_define.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx_wrap.v":3)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx_wrap.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx_wrap.v":3)
+Compiling module 'DPI_to_MIPI_TX_Top'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx_wrap.v":5)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3791) : Expression size ** truncated to fit in target size **("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3670) : Actual bit length ** differs from formal bit length ** for port '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3791) : Expression size ** truncated to fit in target size **("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3670) : Actual bit length ** differs from formal bit length ** for port '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3670) : Actual bit length ** differs from formal bit length ** for port '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3791) : Expression size ** truncated to fit in target size **("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+WARN  (EX3670) : Actual bit length ** differs from formal bit length ** for port '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\DPI_to_MIPI_TX\data\dpi_to_mipi_tx.v":0)
+NOTE  (EX0101) : Current top module is "DPI_to_MIPI_TX_Top"
+[5%] Running netlist conversion ...
+Running device independent optimization ...
+[10%] Optimizing Phase 0 completed
+[15%] Optimizing Phase 1 completed
+[25%] Optimizing Phase 2 completed
+Running inference ...
+[30%] Inferring Phase 0 completed
+[40%] Inferring Phase 1 completed
+[50%] Inferring Phase 2 completed
+[55%] Inferring Phase 3 completed
+Running technical mapping ...
+[60%] Tech-Mapping Phase 0 completed
+[65%] Tech-Mapping Phase 1 completed
+[75%] Tech-Mapping Phase 2 completed
+[80%] Tech-Mapping Phase 3 completed
+[90%] Tech-Mapping Phase 4 completed
+[95%] Generate netlist file "C:\Users\lab162\Desktop\blinkTest\src\dpi_to_mipi_tx\temp\dpi_to_mipi_tx\dpi_to_mipi_tx.vg" completed
+Generate template file "C:\Users\lab162\Desktop\blinkTest\src\dpi_to_mipi_tx\temp\dpi_to_mipi_tx\dpi_to_mipi_tx_tmp.v" completed
+[100%] Generate report file "C:\Users\lab162\Desktop\blinkTest\src\dpi_to_mipi_tx\temp\dpi_to_mipi_tx\dpi_to_mipi_tx_syn.rpt.html" completed
+GowinSynthesis finish

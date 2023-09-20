@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gowin-synthesis-project>
+<Project>
+    <Version>beta</Version>
+    <Device id="GW2A-18C" package="PBGA256" speed="8" partNumber="GW2A-LV18PG256C8/I7"/>
+    <FileList>
+        <File path="C:/Gowin/Gowin_V1.9.9Beta-3/IDE/ipcore/MIPI_TX_Advance/data/DPHY_TX.vp" type="verilog"/>
+        <File path="C:/Gowin/Gowin_V1.9.9Beta-3/IDE/ipcore/MIPI_TX_Advance/data/DPHY_TX_TOP.v" type="verilog"/>
+    </FileList>
+    <OptionList>
+        <Option type="disable_insert_pad" value="1"/>
+        <Option type="include_path" value="C:/Users/lab162/Desktop/blinkTest/src/mipi_tx_advance/temp/MIPI_Tx_Advance"/>
+        <Option type="output_file" value="mipi_tx_advance.vg"/>
+        <Option type="output_template" value="mipi_tx_advance_tmp.v"/>
+        <Option type="ram_balance" value="1"/>
+        <Option type="ram_rw_check" value="1"/>
+        <Option type="verilog_language" value="sysv-2017"/>
+    </OptionList>
+</Project>

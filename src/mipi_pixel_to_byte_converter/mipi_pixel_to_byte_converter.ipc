@@ -1,0 +1,25 @@
+[General]
+ipc_version=4
+file=mipi_pixel_to_byte_converter
+module=MIPI_Pixel_to_Byte_Converter_Top
+target_device=gw2a18c-011
+type=mipi_pixel_to_byte_converter
+version=1.0
+
+[Config]
+16_1=false
+8_1=true
+CSI-2=true
+DE_Polarity_High=true
+DE_Polarity_Low=false
+DSI=false
+Data_Type="RGB-888, 6'h24"
+HSync_Polarity_High=true
+HSync_Polarity_Low=false
+LANG=0
+Number_of_Delayed_Clock_Cycles_for_CTRL=1
+Number_of_Pixels_Per_Clock=1
+Number_of_TX_Lanes=2
+Synthesis_tool=GowinSynthesis
+VSync_Polarity_High=true
+VSync_Polarity_Low=false

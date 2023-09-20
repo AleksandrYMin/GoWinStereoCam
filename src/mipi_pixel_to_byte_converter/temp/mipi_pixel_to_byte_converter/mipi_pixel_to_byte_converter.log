@@ -1,0 +1,50 @@
+GowinSynthesis start
+Running parser ...
+Analyzing Verilog file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v'
+Analyzing included file 'pixel_to_byte_define.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":2008)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":2008)
+Analyzing included file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_macro.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":2008)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":2008)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Undeclared symbol '**', assumed default net type '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Analyzing Verilog file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_wrap.v'
+Analyzing included file 'pixel_to_byte_define.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_wrap.v":1)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_wrap.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_wrap.v":1)
+Analyzing included file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_macro.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_wrap.v":3)
+Back to file 'C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_wrap.v'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_wrap.v":3)
+Compiling module 'MIPI_Pixel_to_Byte_Converter_Top'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte_wrap.v":7)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Extracting RAM for identifier '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Extracting RAM for identifier '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Compiling module '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Extracting RAM for identifier '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+Extracting RAM for identifier '**'("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+WARN  (EX3791) : Expression size ** truncated to fit in target size **("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+NOTE  (EX0101) : Current top module is "MIPI_Pixel_to_Byte_Converter_Top"
+[5%] Running netlist conversion ...
+Running device independent optimization ...
+[10%] Optimizing Phase 0 completed
+[15%] Optimizing Phase 1 completed
+[25%] Optimizing Phase 2 completed
+Running inference ...
+[30%] Inferring Phase 0 completed
+[40%] Inferring Phase 1 completed
+[50%] Inferring Phase 2 completed
+[55%] Inferring Phase 3 completed
+Running technical mapping ...
+[60%] Tech-Mapping Phase 0 completed
+[65%] Tech-Mapping Phase 1 completed
+[75%] Tech-Mapping Phase 2 completed
+[80%] Tech-Mapping Phase 3 completed
+[90%] Tech-Mapping Phase 4 completed
+WARN  (NL0002) : The module "~PULSE_DELAY.MIPI_Pixel_to_Byte_Converter_Top" instantiated to "GEN_FOR_I[0].u_pulse_dly" is swept in optimizing("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+WARN  (NL0002) : The module "~PULSE_DELAY.MIPI_Pixel_to_Byte_Converter_Top" instantiated to "GEN_FOR_I[1].u_pulse_dly" is swept in optimizing("C:\Gowin\Gowin_V1.9.9Beta-3\IDE\ipcore\MIPI_PIXEL_TO_BYTE\data\pixel_to_byte.v":0)
+[95%] Generate netlist file "C:\Users\lab162\Desktop\blinkTest\src\mipi_pixel_to_byte_converter\temp\mipi_pixel_to_byte_converter\mipi_pixel_to_byte_converter.vg" completed
+Generate template file "C:\Users\lab162\Desktop\blinkTest\src\mipi_pixel_to_byte_converter\temp\mipi_pixel_to_byte_converter\mipi_pixel_to_byte_converter_tmp.v" completed
+[100%] Generate report file "C:\Users\lab162\Desktop\blinkTest\src\mipi_pixel_to_byte_converter\temp\mipi_pixel_to_byte_converter\mipi_pixel_to_byte_converter_syn.rpt.html" completed
+GowinSynthesis finish
