@@ -84,6 +84,7 @@
     <ClInclude Include="ov5647_modes.h" />
     <ClInclude Include="RaspiCLI.h" />
     <ClInclude Include="raw_header.h" />
+    <ClInclude Include="save_bmp.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <Link>

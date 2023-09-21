@@ -58,6 +58,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sys/ioctl.h>
 
 #include "raw_header.h"
+#include "save_bmp.h"
 
 #define DEFAULT_I2C_DEVICE 10
 #define ALT_I2C_DEVICE	   0
@@ -580,7 +581,7 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 	RASPIRAW_PARAMS_T *cfg = (RASPIRAW_PARAMS_T *)dev->cfg;
 	MMAL_STATUS_T status;
 
-	vcos_log_error("Buffer %p returned, filled %d, timestamp %llu, flags %04X", buffer, buffer->length, buffer->pts, buffer->flags);
+	vcos_log_error("Callback Buffer %p returned, filled %d, timestamp %llu, flags %04X", buffer, buffer->length, buffer->pts, buffer->flags);
 	if (cfg->capture)
 	{
 
@@ -592,6 +593,7 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 			char *filename = NULL;
 			if (create_filenames(&filename, cfg->output, count) == MMAL_SUCCESS)
 			{
+				save_bpm(buffer->user_data, buffer->length);
 				file = fopen(filename, "wb");
 				if (file)
 				{
@@ -608,7 +610,7 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 					{
 						if (cfg->write_header)
 							fwrite(brcm_header, BRCM_RAW_HEADER_LENGTH, 1, file);
-						fwrite(buffer->user_data, buffer->length, 1, file);
+						fwrite(buffer->user_data, buffer->length, 1, file );
 					}
 					fclose(file);
 				}
@@ -692,7 +694,7 @@ static void yuv_callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 	RASPIRAW_PARAMS_T *cfg = (RASPIRAW_PARAMS_T *)yuv_cb->cfg;
 	MMAL_STATUS_T status;
 
-	vcos_log_error("Buffer %p returned, filled %d, timestamp %llu, flags %04X", buffer, buffer->length, buffer->pts, buffer->flags);
+	vcos_log_error("Yuv_callback Buffer %p returned, filled %d, timestamp %llu, flags %04X", buffer, buffer->length, buffer->pts, buffer->flags);
 	if (cfg->capture_yuv)
 	{
 
@@ -858,7 +860,7 @@ static int parse_cmdline(int argc, char **argv, RASPIRAW_PARAMS_T *cfg)
 			break;
 
 		case CommandVFlip:
-			cfg->vflip = 1;
+			cfg->vflip = 0;
 			break;
 
 		case CommandExposure:
