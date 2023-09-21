@@ -15,13 +15,13 @@ module blinkTest (
     inout   [1:0] LP_CLK_TX         ,      //LP (Low Power) External Interface Signals for Data Lane 0
 
     input  camera_en,
-    input gpio_in,
-    output [1:0] gpio_out,
+    input [1:0]gpio_in,
+    output  gpio_out,
     output [2:0] led
 );
 wire reset_n;
 wire pll_lock;
-assign reset_n = (camera_en | ~gpio_in) & pll_lock;
+assign reset_n = (camera_en) & pll_lock;
 
 wire [7:0] data_in1;  
 wire [7:0] data_in0;
@@ -35,8 +35,7 @@ wire hs_data_en;
 assign led[0] = reset_n & tp0_hs_in;
 assign led[1] = reset_n & tp0_hs_in;
 assign led[2] = reset_n & tp0_hs_in;
-assign gpio_out[0] = pix_clk;
-assign gpio_out[1] = byte_clk;
+assign gpio_out = byte_clk;
 
 wire        tp0_vs_in  ;
 wire        tp0_hs_in  ;
@@ -46,21 +45,23 @@ wire [ 7:0] tp0_data_g/*synthesis syn_keep=1*/;
 wire [ 7:0] tp0_data_b/*synthesis syn_keep=1*/;
 
 wire [23:0] pix_data;
-assign pix_data = {tp0_data_r,tp0_data_g,tp0_data_b};
+assign pix_data = {tp0_data_b,tp0_data_g,tp0_data_r};
 wire pix_clk;
 assign pix_clk = clk;
 wire byte_clk;
 assign byte_clk = clk40_5;
 
+wire [2:0]mode;
+assign mode = {1'b0,gpio_in[1],gpio_in[0]};
 //testpattern
 testpattern testpattern_inst
 (
     .I_pxl_clk   (pix_clk            ),//pixel clock
     .I_rst_n     (reset_n            ),//low active 
-    .I_mode      (3'b011             ),//data select
-    .I_single_r  (8'h01              ),
-    .I_single_g  (8'hAA              ),
-    .I_single_b  (8'hB6              ),                  //800x600    //1024x768   //1280x720    
+    .I_mode      (mode               ),//data select
+    .I_single_r  (8'h00              ),
+    .I_single_g  (8'h00              ),
+    .I_single_b  (8'hFF              ),                  //800x600    //1024x768   //1280x720    
     .I_h_total   (12'd1056           ),//hor total time  // 12'd1056  // 12'd1344  // 12'd1650  
     .I_h_sync    (12'd128            ),//hor sync time   // 12'd128   // 12'd136   // 12'd40    
     .I_h_bporch  (12'd88             ),//hor back porch  // 12'd88    // 12'd160   // 12'd220   
@@ -140,7 +141,7 @@ MIPI_DSI_CSI2_TX_Top CSI2_TX(
     .I_FV_END(O_FV_END_o), //input I_FV_END
     .I_WC(16'd2400), //input [15:0] I_WC
     .I_VC(2'd0), //input [1:0] I_VC
-    .I_DT(6'h21), //input [5:0] I_DT
+    .I_DT(6'h24), //input [5:0] I_DT
     .I_DATA_EN(O_DATA_EN_o), //input I_DATA_EN
     .I_DATA(O_DATA_o), //input [15:0] I_DATA
     .O_LP_CLK(lp_clk), //output [1:0] O_LP_CLK
