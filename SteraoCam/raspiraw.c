@@ -355,7 +355,7 @@ void cb_fps_measurements(GstElement* fpsdisplaysink,
 	gdouble arg2,
 	gpointer user_data)
 {
-	g_print("dropped: %.0f, current: %.2f, average: %.2f\n", arg1, arg0, arg2);
+	g_print("ffffdropped: %.0f, current: %.2f, average: %.2f\n", arg1, arg0, arg2);
 }
 
 static int i2c_rd(int fd, uint8_t i2c_addr, uint16_t reg, uint8_t *values, uint32_t n, const struct sensor_def *sensor)
@@ -585,7 +585,7 @@ static void buffers_to_rawcam(RASPIRAW_CALLBACK_T *dev)
 	while ((buffer = mmal_queue_get(dev->rawcam_pool->queue)) != NULL)
 	{
 		mmal_port_send_buffer(dev->rawcam_output, buffer);
-		vcos_log_error("Buffer %p to rawcam\n", buffer);
+		//vcos_log_error("Buffer %p to rawcam\n", buffer);
 	}
 }
 
@@ -634,60 +634,61 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 					free(filename);
 				}
 			}
+		}
+		if (!(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO) && appsrc) {
+			static GstClockTime ggtimeout = 0, gbase = 0;
+
+			GstBuffer* buff;
+			GstMapInfo info;
+			unsigned char* p, * q;
+			static gint gcnt = 0;
+			unsigned int i, j, k;
+
+			buff = gst_buffer_new_allocate(NULL, 3*800*600, NULL);
+			gst_buffer_map(buff, &info, GST_MAP_WRITE);
+
+			p = buffer->user_data;
+			q = info.data;
+
+			memcpy(q,p, 800 * 600 * 3);
+		
+
+
+			//for (i = 1; i < 480; i += 2) {
+			//	p += 800;
+			//	for (j = 0; j < 800; p += 5, j += 5) {
+			//		k = (((unsigned)p[0]) << 2) + ((p[4] >> 0) & 0x03);
+			//		if (k > 255) k = 255;
+			//		*q++ = k;
+
+			//		k = (((unsigned)p[2]) << 2) + ((p[4] >> 4) & 0x03);
+			//		if (k > 255) k = 255;
+			//		*q++ = k;
+			//	}
+			//}
+
+			if (!ggtimeout) {           // take baseline timestamp
+				gbase = buffer->pts;  // us
+				ggtimeout = gst_util_uint64_scale_int(cfg->timeout, GST_MSECOND, 1);
+			}
+
+			GST_BUFFER_PTS(buff) = (buffer->pts - gbase) * 1000; // us -> ns
+			GST_BUFFER_DURATION(buff) = gst_util_uint64_scale_int(1, GST_SECOND, 100);
+
+			if (GST_BUFFER_PTS(buff) > ggtimeout) {
+				g_main_loop_quit(gloop);              // timeout, stop pushing
+			}
 			else {
-				static GstClockTime ggtimeout = 0, gbase = 0;
-
-				GstBuffer* buff;
-				GstMapInfo info;
-				unsigned char* p, * q;
-				static gint gcnt = 0;
-				unsigned int i, j, k;
-
-				buff = gst_buffer_new_allocate(NULL, 3*800*600, NULL);
-				gst_buffer_map(buff, &info, GST_MAP_WRITE);
-
-				p = buffer->user_data;
-				q = info.data;
-
-				for (i = 0; i < 800*600*3; i++) {
-					q[i] = p[i];
-				}
-
-
-				//for (i = 1; i < 480; i += 2) {
-				//	p += 800;
-				//	for (j = 0; j < 800; p += 5, j += 5) {
-				//		k = (((unsigned)p[0]) << 2) + ((p[4] >> 0) & 0x03);
-				//		if (k > 255) k = 255;
-				//		*q++ = k;
-
-				//		k = (((unsigned)p[2]) << 2) + ((p[4] >> 4) & 0x03);
-				//		if (k > 255) k = 255;
-				//		*q++ = k;
-				//	}
-				//}
-
-				if (!ggtimeout) {           // take baseline timestamp
-					gbase = buffer->pts;  // us
-					ggtimeout = gst_util_uint64_scale_int(cfg->timeout, GST_MSECOND, 1);
-				}
-
-				GST_BUFFER_PTS(buff) = (buffer->pts - gbase) * 1000; // us -> ns
-				GST_BUFFER_DURATION(buff) = gst_util_uint64_scale_int(1, GST_SECOND, 100);
-
-				if (GST_BUFFER_PTS(buff) > ggtimeout) {
-					g_main_loop_quit(gloop);              // timeout, stop pushing
+				if (GST_FLOW_OK != gst_app_src_push_buffer(appsrc, buff)) {
+					g_main_loop_quit(gloop);            // something wrong, stop pushing
 				}
 				else {
-					if (GST_FLOW_OK != gst_app_src_push_buffer(appsrc, buff)) {
-						g_main_loop_quit(gloop);            // something wrong, stop pushing
-					}
-					else {
-						g_print("read_data(%d,%llu)\n", ++gcnt, GST_BUFFER_PTS(buff));
-					}
+					g_print("read_data(%d,%llu)\n", ++gcnt, GST_BUFFER_PTS(buff));
 				}
 			}
+			gst_buffer_unmap(buff, &info);
 		}
+		
 	}
 
 	if (cfg->decodemetadata && (buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO))
@@ -709,7 +710,7 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 			MMAL_BUFFER_HEADER_T *out = mmal_queue_get(dev->isp_ip_pool->queue);
 			if (out)
 			{
-				vcos_log_error("replicate buffer %p for isp", buffer);
+				//vcos_log_error("replicate buffer %p for isp", buffer);
 				mmal_buffer_header_replicate(out, buffer);
 				out->data = buffer->data;
 				out->alloc_size = buffer->alloc_size;
@@ -754,7 +755,7 @@ static void buffers_to_isp_op(RASPIRAW_ISP_CALLBACK_T *dev)
 	while ((buffer = mmal_queue_get(dev->isp_op_pool->queue)) != NULL)
 	{
 		mmal_port_send_buffer(dev->isp_output, buffer);
-		vcos_log_error("Buffer %p to isp op\n", buffer);
+		//vcos_log_error("Buffer %p to isp op\n", buffer);
 	}
 }
 
@@ -765,7 +766,7 @@ static void yuv_callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 	RASPIRAW_PARAMS_T *cfg = (RASPIRAW_PARAMS_T *)yuv_cb->cfg;
 	MMAL_STATUS_T status;
 
-	vcos_log_error("Yuv_callback Buffer %p returned, filled %d, timestamp %llu, flags %04X", buffer, buffer->length, buffer->pts, buffer->flags);
+	//vcos_log_error("Yuv_callback Buffer %p returned, filled %d, timestamp %llu, flags %04X", buffer, buffer->length, buffer->pts, buffer->flags);
 	if (cfg->capture_yuv)
 	{
 
@@ -799,7 +800,7 @@ static void yuv_callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 			MMAL_BUFFER_HEADER_T *out = mmal_queue_get(yuv_cb->vr_ip_pool->queue);
 			if (out)
 			{
-				vcos_log_error("replicate buffer %p for vr", buffer);
+				//vcos_log_error("replicate buffer %p for vr", buffer);
 				mmal_buffer_header_replicate(out, buffer);
 				out->data = buffer->data;
 				out->alloc_size = buffer->alloc_size;
@@ -818,7 +819,7 @@ static void yuv_callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 			 * buffer's refcount */
 			mmal_buffer_header_acquire(buffer);
 			mmal_queue_put(yuv_cb->processing_yuv_queue, buffer);
-			vcos_log_error("send buffer %p to yuv processing",buffer);
+			//vcos_log_error("send buffer %p to yuv processing",buffer);
 		}
 	}
 
@@ -2312,7 +2313,7 @@ int main(int argc, char **argv)
 		g_assert(appsrc = (GstAppSrc*)gst_bin_get_by_name(GST_BIN(pipeline), "_"));
 		g_object_set(G_OBJECT(appsrc), "caps",
 			gst_caps_new_simple("video/x-raw",
-				"format", G_TYPE_STRING, "RGB",
+				"format", G_TYPE_STRING, "BGR",
 				"width", G_TYPE_INT, 800,
 				"height", G_TYPE_INT, 600,
 				"framerate", GST_TYPE_FRACTION, 0, 1,

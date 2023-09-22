@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <RemoteDebuggerCommandArguments>-md 7 -vf -e 6000 -y 10 -t 100000 -f 2 -hd -o 'appsrc name=_ ! videoconvert ! xvimagesink'</RemoteDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>-md 7 -vf -e 6000 -y 10 -t 1000 -f 2 -hd -o 'appsrc name=_ ! videoconvert ! fpsdisplaysink'</RemoteDebuggerCommandArguments>
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
