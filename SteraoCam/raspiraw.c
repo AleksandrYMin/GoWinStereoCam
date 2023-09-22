@@ -635,7 +635,7 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 				}
 			}
 		}
-		if (!(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO) && appsrc) {
+		if (!(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO) && appsrc && buffer->length>0) {
 			static GstClockTime ggtimeout = 0, gbase = 0;
 
 			GstBuffer* buff;
@@ -651,21 +651,6 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 			q = info.data;
 
 			memcpy(q,p, 800 * 600 * 3);
-		
-
-
-			//for (i = 1; i < 480; i += 2) {
-			//	p += 800;
-			//	for (j = 0; j < 800; p += 5, j += 5) {
-			//		k = (((unsigned)p[0]) << 2) + ((p[4] >> 0) & 0x03);
-			//		if (k > 255) k = 255;
-			//		*q++ = k;
-
-			//		k = (((unsigned)p[2]) << 2) + ((p[4] >> 4) & 0x03);
-			//		if (k > 255) k = 255;
-			//		*q++ = k;
-			//	}
-			//}
 
 			if (!ggtimeout) {           // take baseline timestamp
 				gbase = buffer->pts;  // us
@@ -676,11 +661,15 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 			GST_BUFFER_DURATION(buff) = gst_util_uint64_scale_int(1, GST_SECOND, 100);
 
 			if (GST_BUFFER_PTS(buff) > ggtimeout) {
-				g_main_loop_quit(gloop);              // timeout, stop pushing
+				if(gloop){
+					g_main_loop_quit(gloop);              // timeout, stop pushing
+				}
 			}
 			else {
 				if (GST_FLOW_OK != gst_app_src_push_buffer(appsrc, buff)) {
-					g_main_loop_quit(gloop);            // something wrong, stop pushing
+					if (gloop) {
+						g_main_loop_quit(gloop);            // something wrong, stop pushing
+					}
 				}
 				else {
 					g_print("read_data(%d,%llu)\n", ++gcnt, GST_BUFFER_PTS(buff));
@@ -688,7 +677,6 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 			}
 			gst_buffer_unmap(buff, &info);
 		}
-		
 	}
 
 	if (cfg->decodemetadata && (buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO))
@@ -2342,7 +2330,9 @@ int main(int argc, char **argv)
 		/* clean up */
 		gst_element_set_state(pipeline, GST_STATE_NULL);
 		gst_object_unref(GST_OBJECT(pipeline));
-		g_main_loop_unref(gloop);
+		if (gloop) {
+			g_main_loop_unref(gloop);
+		}	
 	}
 	else {
 		start_camera_streaming(sensor, sensor_mode, i2c_fd);
