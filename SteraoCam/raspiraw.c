@@ -54,8 +54,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "interface/vcsm/user-vcsm.h"
 
 #include "RaspiCLI.h"
-
+#include <wiringPi.h>
 #include <sys/ioctl.h>
+
+#include <gst/gst.h>
+#include <gst/app/gstappsrc.h>
+
+GMainLoop* gloop = NULL;
+GstAppSrc* appsrc = NULL;
 
 #include "raw_header.h"
 #include "save_bmp.h"
@@ -343,6 +349,15 @@ typedef struct
 
 void update_regs(const struct sensor_def *sensor, struct mode_def *mode, int hflip, int vflip, int exposure, int gain);
 
+void cb_fps_measurements(GstElement* fpsdisplaysink,
+	gdouble arg0,
+	gdouble arg1,
+	gdouble arg2,
+	gpointer user_data)
+{
+	g_print("dropped: %.0f, current: %.2f, average: %.2f\n", arg1, arg0, arg2);
+}
+
 static int i2c_rd(int fd, uint8_t i2c_addr, uint16_t reg, uint8_t *values, uint32_t n, const struct sensor_def *sensor)
 {
 	int err;
@@ -587,34 +602,90 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 
 		if (!(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO) && (((count++) % cfg->saverate) == 0))
 		{
-			// Save every Nth frame
-			// SD card access is too slow to do much more.
-			FILE *file;
-			char *filename = NULL;
-			if (create_filenames(&filename, cfg->output, count) == MMAL_SUCCESS)
+			if (!appsrc)   // to keep SD card code indentation
 			{
-				save_bpm(buffer->user_data, buffer->length);
-				file = fopen(filename, "wb");
-				if (file)
+				// Save every Nth frame
+				// SD card access is too slow to do much more.
+				FILE* file;
+				char* filename = NULL;
+				if (create_filenames(&filename, cfg->output, count) == MMAL_SUCCESS)
 				{
-					if (cfg->ptso) // make sure previous
-						       // malloc() was
-						       // successful
+					save_bpm(buffer->user_data, buffer->length);
+					file = fopen(filename, "wb");
+					if (file)
 					{
-						cfg->ptso->idx = count;
-						cfg->ptso->pts = buffer->pts;
-						cfg->ptso->nxt = malloc(sizeof(*cfg->ptso->nxt));
-						cfg->ptso = cfg->ptso->nxt;
+						if (cfg->ptso) // make sure previous
+								   // malloc() was
+								   // successful
+						{
+							cfg->ptso->idx = count;
+							cfg->ptso->pts = buffer->pts;
+							cfg->ptso->nxt = malloc(sizeof(*cfg->ptso->nxt));
+							cfg->ptso = cfg->ptso->nxt;
+						}
+						if (!cfg->write_empty)
+						{
+							if (cfg->write_header)
+								fwrite(brcm_header, BRCM_RAW_HEADER_LENGTH, 1, file);
+							fwrite(buffer->user_data, buffer->length, 1, file);
+						}
+						fclose(file);
 					}
-					if (!cfg->write_empty)
-					{
-						if (cfg->write_header)
-							fwrite(brcm_header, BRCM_RAW_HEADER_LENGTH, 1, file);
-						fwrite(buffer->user_data, buffer->length, 1, file );
-					}
-					fclose(file);
+					free(filename);
 				}
-				free(filename);
+			}
+			else {
+				static GstClockTime ggtimeout = 0, gbase = 0;
+
+				GstBuffer* buff;
+				GstMapInfo info;
+				unsigned char* p, * q;
+				static gint gcnt = 0;
+				unsigned int i, j, k;
+
+				buff = gst_buffer_new_allocate(NULL, 3*800*600, NULL);
+				gst_buffer_map(buff, &info, GST_MAP_WRITE);
+
+				p = buffer->user_data;
+				q = info.data;
+
+				for (i = 0; i < 800*600*3; i++) {
+					q[i] = p[i];
+				}
+
+
+				//for (i = 1; i < 480; i += 2) {
+				//	p += 800;
+				//	for (j = 0; j < 800; p += 5, j += 5) {
+				//		k = (((unsigned)p[0]) << 2) + ((p[4] >> 0) & 0x03);
+				//		if (k > 255) k = 255;
+				//		*q++ = k;
+
+				//		k = (((unsigned)p[2]) << 2) + ((p[4] >> 4) & 0x03);
+				//		if (k > 255) k = 255;
+				//		*q++ = k;
+				//	}
+				//}
+
+				if (!ggtimeout) {           // take baseline timestamp
+					gbase = buffer->pts;  // us
+					ggtimeout = gst_util_uint64_scale_int(cfg->timeout, GST_MSECOND, 1);
+				}
+
+				GST_BUFFER_PTS(buff) = (buffer->pts - gbase) * 1000; // us -> ns
+				GST_BUFFER_DURATION(buff) = gst_util_uint64_scale_int(1, GST_SECOND, 100);
+
+				if (GST_BUFFER_PTS(buff) > ggtimeout) {
+					g_main_loop_quit(gloop);              // timeout, stop pushing
+				}
+				else {
+					if (GST_FLOW_OK != gst_app_src_push_buffer(appsrc, buff)) {
+						g_main_loop_quit(gloop);            // something wrong, stop pushing
+					}
+					else {
+						g_print("read_data(%d,%llu)\n", ++gcnt, GST_BUFFER_PTS(buff));
+					}
+				}
 			}
 		}
 	}
@@ -2228,10 +2299,55 @@ int main(int argc, char **argv)
 
 	buffers_to_rawcam(&dev);
 	buffers_to_isp_op(&yuv_cb);
+	if (cfg.output && (cfg.mode >> 1 == 3) && (strncmp(cfg.output, "appsrc ", 7) == 0)) {
+		/* init GStreamer */
+		GstElement* pipeline, * fpsdisplaysink;
+		gst_init(&argc, (char***)&argv);
+		gloop = g_main_loop_new(NULL, FALSE);
 
-	start_camera_streaming(sensor, sensor_mode, i2c_fd);
+		/* setup pipeline */
+		g_assert(pipeline = gst_parse_launch(cfg.output, NULL));
 
-	vcos_sleep(cfg.timeout);
+		/* setup */
+		g_assert(appsrc = (GstAppSrc*)gst_bin_get_by_name(GST_BIN(pipeline), "_"));
+		g_object_set(G_OBJECT(appsrc), "caps",
+			gst_caps_new_simple("video/x-raw",
+				"format", G_TYPE_STRING, "RGB",
+				"width", G_TYPE_INT, 800,
+				"height", G_TYPE_INT, 600,
+				"framerate", GST_TYPE_FRACTION, 0, 1,
+				NULL), NULL);
+
+		/* setup appsrc */
+		g_object_set(G_OBJECT(appsrc),
+			"stream-type", 0,
+			"format", GST_FORMAT_TIME, NULL);
+
+		/* setup fpsdisplaysink "#" if present */
+		fpsdisplaysink = gst_bin_get_by_name(GST_BIN(pipeline), "#");
+		if (fpsdisplaysink) {
+			g_object_set(G_OBJECT(fpsdisplaysink), "signal-fps-measurements", TRUE, NULL);
+			g_signal_connect(fpsdisplaysink, "fps-measurements", G_CALLBACK(cb_fps_measurements), NULL);
+			g_print("fps-measurements connected\n");
+		}
+
+		/* play */
+		gst_element_set_state(pipeline, GST_STATE_PLAYING);
+
+		start_camera_streaming(sensor, sensor_mode, i2c_fd);
+
+		g_main_loop_run(gloop);
+
+		/* clean up */
+		gst_element_set_state(pipeline, GST_STATE_NULL);
+		gst_object_unref(GST_OBJECT(pipeline));
+		g_main_loop_unref(gloop);
+	}
+	else {
+		start_camera_streaming(sensor, sensor_mode, i2c_fd);
+		vcos_sleep(cfg.timeout);
+	}
+
 
 	stop_camera_streaming(sensor, i2c_fd);
 

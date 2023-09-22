@@ -51,7 +51,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <IncludePath>$(LinuxIncludePath)\usr\include;$(LinuxIncludePath)\wiringPi\2.32\;$(IncludePath)</IncludePath>
+    <IncludePath>$(LinuxIncludePath)\usr\include;$(LinuxIncludePath)\wiringPi\2.32\;$(LinuxIncludePath)\usr\include\gstreamer-1.0;$(LinuxIncludePath)\usr\include\glib-2.0;$(IncludePath)</IncludePath>
     <RemoteCCompileToolExe>g++</RemoteCCompileToolExe>
     <RemoteCppCompileToolExe>g++</RemoteCppCompileToolExe>
   </PropertyGroup>
@@ -88,12 +88,13 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <Link>
-      <LibraryDependencies>rt;bcm_host;vcos;mmal_core;mmal_util;mmal_vc_client;vcsm;pthread;%(LibraryDependencies)</LibraryDependencies>
+      <LibraryDependencies>rt;bcm_host;vcos;mmal_core;mmal_util;mmal_vc_client;vcsm;pthread;gstaudio-1.0;gstbase-1.0;gsttag-1.0;gstreamer-1.0;gobject-2.0;glib-2.0;gstvideo-1.0;gstapp-1.0;%(LibraryDependencies)</LibraryDependencies>
     </Link>
     <ClCompile>
       <AdditionalOptions>-pipe -g -O0 -MD %(AdditionalOptions)</AdditionalOptions>
       <CLanguageStandard>gnu11</CLanguageStandard>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <AdditionalIncludeDirectories>/usr/include/gstreamer-1.0;/usr/include/orc-0.4;/usr/include/arm-linux-gnueabihf;/usr/include/glib-2.0;/usr/lib/arm-linux-gnueabihf/glib-2.0/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
