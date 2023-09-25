@@ -66,6 +66,9 @@ GstAppSrc* appsrc = NULL;
 #include "raw_header.h"
 #include "save_bmp.h"
 
+#define IMAGE_WIDTH 1280
+#define IMAGE_HEIGHT 720
+
 #define DEFAULT_I2C_DEVICE 10
 #define ALT_I2C_DEVICE	   0
 
@@ -355,7 +358,7 @@ void cb_fps_measurements(GstElement* fpsdisplaysink,
 	gdouble arg2,
 	gpointer user_data)
 {
-	g_print("ffffdropped: %.0f, current: %.2f, average: %.2f\n", arg1, arg0, arg2);
+	g_print("dropped: %.0f, current: %.2f, average: %.2f\n", arg1, arg0, arg2);
 }
 
 static int i2c_rd(int fd, uint8_t i2c_addr, uint16_t reg, uint8_t *values, uint32_t n, const struct sensor_def *sensor)
@@ -596,45 +599,45 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 	RASPIRAW_PARAMS_T *cfg = (RASPIRAW_PARAMS_T *)dev->cfg;
 	MMAL_STATUS_T status;
 
-	vcos_log_error("Callback Buffer %p returned, filled %d, timestamp %llu, flags %04X", buffer, buffer->length, buffer->pts, buffer->flags);
+	//vcos_log_error("Callback Buffer %p returned, filled %d, timestamp %llu, flags %04X", buffer, buffer->length, buffer->pts, buffer->flags);
 	if (cfg->capture)
 	{
 
-		if (!(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO) && (((count++) % cfg->saverate) == 0))
-		{
-			if (!appsrc)   // to keep SD card code indentation
-			{
-				// Save every Nth frame
-				// SD card access is too slow to do much more.
-				FILE* file;
-				char* filename = NULL;
-				if (create_filenames(&filename, cfg->output, count) == MMAL_SUCCESS)
-				{
-					save_bpm(buffer->user_data, buffer->length);
-					file = fopen(filename, "wb");
-					if (file)
-					{
-						if (cfg->ptso) // make sure previous
-								   // malloc() was
-								   // successful
-						{
-							cfg->ptso->idx = count;
-							cfg->ptso->pts = buffer->pts;
-							cfg->ptso->nxt = malloc(sizeof(*cfg->ptso->nxt));
-							cfg->ptso = cfg->ptso->nxt;
-						}
-						if (!cfg->write_empty)
-						{
-							if (cfg->write_header)
-								fwrite(brcm_header, BRCM_RAW_HEADER_LENGTH, 1, file);
-							fwrite(buffer->user_data, buffer->length, 1, file);
-						}
-						fclose(file);
-					}
-					free(filename);
-				}
-			}
-		}
+		//if (!(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO) && (((count++) % cfg->saverate) == 0))
+		//{
+		//	if (!appsrc)   // to keep SD card code indentation
+		//	{
+		//		// Save every Nth frame
+		//		// SD card access is too slow to do much more.
+		//		FILE* file;
+		//		char* filename = NULL;
+		//		if (create_filenames(&filename, cfg->output, count) == MMAL_SUCCESS)
+		//		{
+		//			save_bpm(buffer->user_data, buffer->length);
+		//			file = fopen(filename, "wb");
+		//			if (file)
+		//			{
+		//				if (cfg->ptso) // make sure previous
+		//						   // malloc() was
+		//						   // successful
+		//				{
+		//					cfg->ptso->idx = count;
+		//					cfg->ptso->pts = buffer->pts;
+		//					cfg->ptso->nxt = malloc(sizeof(*cfg->ptso->nxt));
+		//					cfg->ptso = cfg->ptso->nxt;
+		//				}
+		//				if (!cfg->write_empty)
+		//				{
+		//					if (cfg->write_header)
+		//						fwrite(brcm_header, BRCM_RAW_HEADER_LENGTH, 1, file);
+		//					fwrite(buffer->user_data, buffer->length, 1, file);
+		//				}
+		//				fclose(file);
+		//			}
+		//			free(filename);
+		//		}
+		//	}
+		//}
 		if (!(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO) && appsrc && buffer->length>0) {
 			static GstClockTime ggtimeout = 0, gbase = 0;
 
@@ -644,13 +647,13 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 			static gint gcnt = 0;
 			unsigned int i, j, k;
 
-			buff = gst_buffer_new_allocate(NULL, 3*800*600, NULL);
+			buff = gst_buffer_new_allocate(NULL, 3*IMAGE_WIDTH*IMAGE_HEIGHT, NULL);
 			gst_buffer_map(buff, &info, GST_MAP_WRITE);
 
 			p = buffer->user_data;
 			q = info.data;
 
-			memcpy(q,p, 800 * 600 * 3);
+			memcpy(q,p, IMAGE_WIDTH * IMAGE_HEIGHT * 3);
 
 			if (!ggtimeout) {           // take baseline timestamp
 				gbase = buffer->pts;  // us
@@ -672,7 +675,7 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 					}
 				}
 				else {
-					g_print("read_data(%d,%llu)\n", ++gcnt, GST_BUFFER_PTS(buff));
+					//g_print("read_data(%d,%llu)\n", ++gcnt, GST_BUFFER_PTS(buff));
 				}
 			}
 			gst_buffer_unmap(buff, &info);
@@ -691,45 +694,45 @@ static void callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
 	}
 
 	/* Pass the buffers off to any other MMAL sinks. */
-	if (buffer->length && !(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO))
-	{
-		if (dev->isp_ip)
-		{
-			MMAL_BUFFER_HEADER_T *out = mmal_queue_get(dev->isp_ip_pool->queue);
-			if (out)
-			{
-				//vcos_log_error("replicate buffer %p for isp", buffer);
-				mmal_buffer_header_replicate(out, buffer);
-				out->data = buffer->data;
-				out->alloc_size = buffer->alloc_size;
-				status = mmal_port_send_buffer(dev->isp_ip, out);
-				if (status != MMAL_SUCCESS)
-					vcos_log_error("Failed to send buffer "
-						       "%p to isp - %d",
-						       buffer, status);
-			}
-		}
+	//if (buffer->length && !(buffer->flags & MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO))
+	//{
+	//	if (dev->isp_ip)
+	//	{
+	//		MMAL_BUFFER_HEADER_T *out = mmal_queue_get(dev->isp_ip_pool->queue);
+	//		if (out)
+	//		{
+	//			//vcos_log_error("replicate buffer %p for isp", buffer);
+	//			mmal_buffer_header_replicate(out, buffer);
+	//			out->data = buffer->data;
+	//			out->alloc_size = buffer->alloc_size;
+	//			status = mmal_port_send_buffer(dev->isp_ip, out);
+	//			if (status != MMAL_SUCCESS)
+	//				vcos_log_error("Failed to send buffer "
+	//					       "%p to isp - %d",
+	//					       buffer, status);
+	//		}
+	//	}
 
-		/* Pass to the AWB thread */
-		if (dev->awb_queue)
-		{
-			/* Relying on the AWB thread to release this
-			 * buffer`refcount */
-			mmal_buffer_header_acquire(buffer);
-			mmal_queue_put(dev->awb_queue, buffer);
-			vcos_log_error("send buffer %p to awb", buffer);
-		}
+	//	/* Pass to the AWB thread */
+	//	if (dev->awb_queue)
+	//	{
+	//		/* Relying on the AWB thread to release this
+	//		 * buffer`refcount */
+	//		mmal_buffer_header_acquire(buffer);
+	//		mmal_queue_put(dev->awb_queue, buffer);
+	//		vcos_log_error("send buffer %p to awb", buffer);
+	//	}
 
-		/* Pass to the processing thread */
-		if (dev->processing_queue)
-		{
-			/* Relying on the processing thread to release this
-			 * buffer`refcount */
-			mmal_buffer_header_acquire(buffer);
-			mmal_queue_put(dev->processing_queue, buffer);
-			vcos_log_error("send buffer %p to awb", buffer);
-		}
-	}
+	//	/* Pass to the processing thread */
+	//	if (dev->processing_queue)
+	//	{
+	//		/* Relying on the processing thread to release this
+	//		 * buffer`refcount */
+	//		mmal_buffer_header_acquire(buffer);
+	//		mmal_queue_put(dev->processing_queue, buffer);
+	//		vcos_log_error("send buffer %p to awb", buffer);
+	//	}
+	//}
 
 	mmal_buffer_header_release(buffer);
 
@@ -2302,8 +2305,8 @@ int main(int argc, char **argv)
 		g_object_set(G_OBJECT(appsrc), "caps",
 			gst_caps_new_simple("video/x-raw",
 				"format", G_TYPE_STRING, "BGR",
-				"width", G_TYPE_INT, 800,
-				"height", G_TYPE_INT, 600,
+				"width", G_TYPE_INT, IMAGE_WIDTH,
+				"height", G_TYPE_INT, IMAGE_HEIGHT,
 				"framerate", GST_TYPE_FRACTION, 0, 1,
 				NULL), NULL);
 

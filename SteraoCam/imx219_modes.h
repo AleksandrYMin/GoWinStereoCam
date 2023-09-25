@@ -718,8 +718,8 @@ struct mode_def imx219_modes[] = {
     {
         .regs = imx219_mode7,
         .num_regs = NUM_ELEMENTS(imx219_mode7),
-        .width = 800,
-        .height = 600,
+        .width = 1280,
+        .height = 720,
         .encoding = MMAL_ENCODING_BGR24,
         .order = BAYER_ORDER_BGGR,
         .native_bit_depth = 8,
