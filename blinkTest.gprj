@@ -10,6 +10,8 @@
         <File path="src/dpi_to_mipi_tx/dpi_to_mipi_tx.v" type="file.verilog" enable="1"/>
         <File path="src/gowin_rpll2/gowin_rpll2.v" type="file.verilog" enable="1"/>
         <File path="src/gowin_rpll_162/gowin_rpll_162.v" type="file.verilog" enable="1"/>
+        <File path="src/gowin_rpll_324/gowin_rpll_324.v" type="file.verilog" enable="1"/>
+        <File path="src/gowin_rpll_54/gowin_rpll_54.v" type="file.verilog" enable="1"/>
         <File path="src/ledBlink.v" type="file.verilog" enable="1"/>
         <File path="src/mipi_dsi_csi2_tx/mipi_dsi_csi2_tx.v" type="file.verilog" enable="1"/>
         <File path="src/mipi_pixel_to_byte_converter/mipi_pixel_to_byte_converter.v" type="file.verilog" enable="1"/>

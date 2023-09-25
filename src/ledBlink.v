@@ -1,3 +1,5 @@
+`define FAST_CLK
+
 module blinkTest (
     input clk,  //27 MHz
 
@@ -46,10 +48,23 @@ wire [ 7:0] tp0_data_b/*synthesis syn_keep=1*/;
 
 wire [23:0] pix_data;
 assign pix_data = {tp0_data_b,tp0_data_g,tp0_data_r};
+
 wire pix_clk;
-assign pix_clk = clk;
 wire byte_clk;
+wire hs_clk;
+wire hs_clk_p;
+`ifdef FAST_CLK
+assign pix_clk = clk54;
+assign byte_clk = clk81;
+assign hs_clk = clk324;
+assign hs_clk_p = clk324_p;
+`else
+assign pix_clk = clk;
 assign byte_clk = clk40_5;
+assign hs_clk = clk162;
+assign hs_clk_p = clk162_p;
+`endif
+
 
 wire [2:0]mode;
 assign mode = {1'b0,gpio_in[1],gpio_in[0]};
@@ -60,16 +75,16 @@ testpattern testpattern_inst
     .I_rst_n     (reset_n            ),//low active 
     .I_mode      (mode               ),//data select
     .I_single_r  (8'h00              ),
-    .I_single_g  (8'h00              ),
+    .I_single_g  (8'h00              ),                                          //required 1280x720
     .I_single_b  (8'hFF              ),                  //800x600    //1024x768   //1280x720    
-    .I_h_total   (12'd1056           ),//hor total time  // 12'd1056  // 12'd1344  // 12'd1650  
-    .I_h_sync    (12'd128            ),//hor sync time   // 12'd128   // 12'd136   // 12'd40    
-    .I_h_bporch  (12'd88             ),//hor back porch  // 12'd88    // 12'd160   // 12'd220   
-    .I_h_res     (12'd800            ),//hor resolution  // 12'd800   // 12'd1024  // 12'd1280  
-    .I_v_total   (12'd610            ),//ver total time  // 12'd628   // 12'd806   // 12'd750    
-    .I_v_sync    (12'd4              ),//ver sync time   // 12'd4     // 12'd6     // 12'd5     
-    .I_v_bporch  (12'd2              ),//ver back porch  // 12'd23    // 12'd29    // 12'd20    
-    .I_v_res     (12'd600            ),//ver resolution  // 12'd600   // 12'd768   // 12'd720    
+    .I_h_total   (12'd1650           ),//hor total time  // 12'd1056  // 12'd1344  // 12'd1650  
+    .I_h_sync    (12'd40             ),//hor sync time   // 12'd128   // 12'd136   // 12'd40    
+    .I_h_bporch  (12'd220            ),//hor back porch  // 12'd88    // 12'd160   // 12'd220   
+    .I_h_res     (12'd1280           ),//hor resolution  // 12'd800   // 12'd1024  // 12'd1280  
+    .I_v_total   (12'd750            ),//ver total time  // 12'd628   // 12'd806   // 12'd750   
+    .I_v_sync    (12'd5              ),//ver sync time   // 12'd4     // 12'd6     // 12'd5     
+    .I_v_bporch  (12'd20             ),//ver back porch  // 12'd23    // 12'd29    // 12'd20    
+    .I_v_res     (12'd720            ),//ver resolution  // 12'd600   // 12'd768   // 12'd720    
     .I_hs_pol    (1'b1               ),//HS polarity , 0:negetive ploarity，1：positive polarity
     .I_vs_pol    (1'b1               ),//VS polarity , 0:negetive ploarity，1：positive polarity
     .O_de        (tp0_de_in          ),   
@@ -86,17 +101,16 @@ wire clk162;
 wire clk162_p;
 wire clk40_5;
 
-//wire clk81;
 
-//CLKDIV u_clkdiv
-//(.RESETN(reset_n)
-//,.HCLKIN(clk162) //clk  x5
-//,.CLKOUT(clk81)    //clk  x1
-//,.CALIB (1'b1)
-//);
-//defparam u_clkdiv.DIV_MODE="2";
-//defparam u_clkdiv.GSREN="false";
+wire clk324;
+wire clk324_p;
+wire clk81;
+wire clk54;
 
+Gowin_rPLL_54 pix_clock_gen(
+    .clkout(clk54), //output clkout
+    .clkin(clk) //input clkin
+);
 
 //DPI_to_MIPI_TX_Top DPI_to_MIPI_inst(
 //    .rst_n(reset_n), //input rst_n
@@ -139,7 +153,7 @@ MIPI_DSI_CSI2_TX_Top CSI2_TX(
     .I_BYTE_CLK(byte_clk), //input I_BYTE_CLK
     .I_FV_START(O_FV_START_o), //input I_FV_START
     .I_FV_END(O_FV_END_o), //input I_FV_END
-    .I_WC(16'd2400), //input [15:0] I_WC
+    .I_WC(16'd3840), //input [15:0] I_WC //d2400
     .I_VC(2'd0), //input [1:0] I_VC
     .I_DT(6'h24), //input [5:0] I_DT
     .I_DATA_EN(O_DATA_EN_o), //input I_DATA_EN
@@ -161,15 +175,22 @@ Gowin_rPLL_162 your_instance_name(
     .clkin(clk) //input clkin
 );
 
+Gowin_rPLL_324 faster_clock(
+    .clkout(clk324), //output clkout
+    .clkoutp(clk324_p), //output clkoutp
+    .clkoutd(clk81), //output clkoutd
+    .clkin(clk) //input clkin
+);
+
 MIPI_TX_Advance_Top mipi_tx_inst(
     .reset_n(reset_n),          //input reset_n                        
 
     .HS_CLK_P(HS_CLK_TX_p),     //output HS_CLK_P
     .HS_CLK_N(HS_CLK_TX_n),     //output HS_CLK_N
-    .clk_data(~8'b01010101),     //input [7:0] clk_data
+    .clk_data(8'b01010101),     //input [7:0] clk_data
 
-    .clk_bit(clk162),           //input clk_bit
-    .clk_bit_90(clk162_p),      //input clk_bit_90
+    .clk_bit(hs_clk_p),           //input clk_bit
+    .clk_bit_90(hs_clk),      //input clk_bit_90
     .sclk(byte_clk),            //input sclk
 
     .HS_DATA1_P(HS_DATA1_TX_p), //output HS_DATA1_P

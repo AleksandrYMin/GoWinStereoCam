@@ -4,9 +4,9 @@
 // Created by        : Caojie
 // Module Description: 
 //						I_mode[2:0] = "000" : color bar     
-//						I_mode[2:0] = "001" : net grid     
+//						I_mode[2:0] = "001" : single color
 //						I_mode[2:0] = "010" : gray         
-//						I_mode[2:0] = "011" : single color
+//						I_mode[2:0] = "011" : net grid 
 // ---------------------------------------------------------------------
 // Release history
 // VERSION |   Date      | AUTHOR  |    DESCRIPTION
@@ -323,9 +323,9 @@ assign Single_color = {I_single_b,I_single_g,I_single_r};
 
 //============================================================
 assign Data_sel = (I_mode[2:0] == 3'b000) ? Color_bar		: 
-                  (I_mode[2:0] == 3'b001) ? Net_grid 		: 
+                  (I_mode[2:0] == 3'b001) ? Single_color	: 
                   (I_mode[2:0] == 3'b010) ? Gray_d1    		: 
-				  (I_mode[2:0] == 3'b011) ? Single_color	: BLUE;
+				  (I_mode[2:0] == 3'b011) ? Net_grid    	: BLUE;
 
 //---------------------------------------------------
 always @(posedge I_pxl_clk or negedge I_rst_n)

@@ -7,7 +7,7 @@ type=mipi_dsi_csi2_tx
 version=1.0
 
 [Config]
-Byte_Clk_Freq=40.8
+Byte_Clk_Freq=81.0
 CSI-2=true
 DSI=false
 DSI_Vide_Mode=Non-burst Mode with Sync Pulses
@@ -18,8 +18,8 @@ Mode_1_16=false
 Mode_1_8=true
 Number_of_RX_Lanes=2
 Synthesis_tool=GowinSynthesis
-THS_EXIT=5
-THS_PREPARE=3
-THS_TAIL=4
-THS_ZERO=6
-TLPX=3
+THS_EXIT=9
+THS_PREPARE=4
+THS_TAIL=6
+THS_ZERO=9
+TLPX=5
