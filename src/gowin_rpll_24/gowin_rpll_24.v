@@ -5,9 +5,9 @@
 //Part Number: GW2A-LV18PG256C8/I7
 //Device: GW2A-18
 //Device Version: C
-//Created Time: Tue Sep 12 15:27:25 2023
+//Created Time: Mon Sep 25 17:11:28 2023
 
-module Gowin_rPLL2 (clkout, clkin);
+module Gowin_rPLL_24 (clkout, clkin);
 
 output clkout;
 input clkin;
@@ -40,11 +40,11 @@ rPLL rpll_inst (
 
 defparam rpll_inst.FCLKIN = "27";
 defparam rpll_inst.DYN_IDIV_SEL = "false";
-defparam rpll_inst.IDIV_SEL = 6;
+defparam rpll_inst.IDIV_SEL = 8;
 defparam rpll_inst.DYN_FBDIV_SEL = "false";
-defparam rpll_inst.FBDIV_SEL = 12;
+defparam rpll_inst.FBDIV_SEL = 7;
 defparam rpll_inst.DYN_ODIV_SEL = "false";
-defparam rpll_inst.ODIV_SEL = 16;
+defparam rpll_inst.ODIV_SEL = 32;
 defparam rpll_inst.PSDA_SEL = "0000";
 defparam rpll_inst.DYN_DA_EN = "true";
 defparam rpll_inst.DUTYDA_SEL = "1000";
@@ -61,4 +61,4 @@ defparam rpll_inst.CLKOUTD_SRC = "CLKOUT";
 defparam rpll_inst.CLKOUTD3_SRC = "CLKOUT";
 defparam rpll_inst.DEVICE = "GW2A-18C";
 
-endmodule //Gowin_rPLL2
+endmodule //Gowin_rPLL_24

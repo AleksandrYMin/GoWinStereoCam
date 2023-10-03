@@ -7,14 +7,14 @@
 //Device Version: C
 //Created Time: Mon Sep 25 11:35:16 2023
 
-module Gowin_rPLL_324 (clkout, clkoutp, clkoutd, clkin);
+module Gowin_rPLL_324 (clkout, clkoutp, clkoutd, clkin, lock_o);
 
 output clkout;
 output clkoutp;
 output clkoutd;
 input clkin;
 
-wire lock_o;
+output lock_o;
 wire clkoutd3_o;
 wire gw_vcc;
 wire gw_gnd;

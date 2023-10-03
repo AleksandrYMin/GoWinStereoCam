@@ -1,9 +1,0 @@
-parameter LP01_CLK_DLY=2;
-parameter LP00_CLK_DLY=2;
-parameter HS00_CLK_DLY=2;
-parameter HSXX_CLK_DLY=2;
-parameter CLK2DATA_DLY=2;
-parameter LP01_DATA_DLY=2;
-parameter LP00_DATA_DLY=2;
-parameter HS00_DATA_DLY=2;
-parameter HSXX_DATA_DLY=2;

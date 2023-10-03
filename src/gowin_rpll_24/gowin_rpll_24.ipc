@@ -1,7 +1,7 @@
 [General]
 ipc_version=4
-file=gowin_rpll2
-module=Gowin_rPLL2
+file=gowin_rpll_24
+module=Gowin_rPLL_24
 target_device=gw2a18c-011
 type=clock_rpll
 version=1.0
@@ -14,8 +14,8 @@ CLKOUTD=false
 CLKOUTP=false
 CLKOUT_BYPASS=false
 CLKOUT_DIVIDE_DYN=true
-CLKOUT_FREQ=50
-CLKOUT_TOLERANCE=2
+CLKOUT_FREQ=24
+CLKOUT_TOLERANCE=0
 DYNAMIC=true
 LANG=0
 LOCK_EN=false
