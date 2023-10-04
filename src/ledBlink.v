@@ -66,7 +66,7 @@ wire hs_clk_en;
 wire hs_data_en;
 
 //wire [2:0] led;
-assign led[0] = cmos_2_16bit_clk;
+assign led[0] = cam_clk_1;
 assign led[1] = cam_2_href;
 assign led[2] = cam_2_vsync;
 assign gpio_out = byte_clk;
@@ -192,9 +192,23 @@ wire video_clk;
 assign video_clk = pix_clk;
 
 wire[15:0] write_data;
-assign write_data = {cmos_2_16bit_data[4:0],cmos_2_16bit_data[10:5],cmos_2_16bit_data[15:11]};
+//assign write_data = {cmos_2_16bit_data[4:0]>>1+cmos_1_16bit_data[4:0]>>1,cmos_2_16bit_data[10:5]>>1+cmos_1_16bit_data[10:5]>>1,cmos_2_16bit_data[15:11]>>1+cmos_1_16bit_data[15:11]>>1};
+assign write_data = {cmos_16bit_data[4:0],cmos_16bit_data[10:5],cmos_16bit_data[15:11]};
+//assign write_data = {cmos_1_16bit_data[4:0],cmos_1_16bit_data[10:5],cmos_1_16bit_data[15:11]};
 
 wire[15:0] off0_syn_data;
+
+wire[15:0]                      cmos_16bit_data;
+assign cmos_16bit_data = gpio_in[0] ? cmos_2_16bit_data: cmos_1_16bit_data;
+
+wire                            cmos_16bit_clk;
+assign cmos_16bit_clk = gpio_in[0] ? cmos_2_16bit_clk: cmos_1_16bit_clk;
+
+wire cam_vsync;
+assign cam_vsync = gpio_in[0] ? cam_2_vsync: cam_1_vsync;
+
+wire cmos_16bit_wr;
+assign cmos_16bit_wr = gpio_in[0] ? cmos_2_16bit_wr: cmos_1_16bit_wr;
 
 wire[15:0]                      cmos_1_16bit_data;
 wire                            cmos_1_16bit_clk;
@@ -250,9 +264,9 @@ Video_Frame_Buffer_Top Video_Frame_Buffer_Top_inst
     .I_rd_halt            (1'd0             ), //1:halt,  0:no halt
 `endif
     // video data input             
-    .I_vin0_clk           (cmos_2_16bit_clk  ),
-    .I_vin0_vs_n          (~cam_2_vsync      ),//只接收负极性
-    .I_vin0_de            (cmos_2_16bit_wr   ),
+    .I_vin0_clk           (cmos_16bit_clk  ),
+    .I_vin0_vs_n          (~cam_vsync      ),//只接收负极性
+    .I_vin0_de            (cmos_16bit_wr   ),
     .I_vin0_data          (write_data        ),
     .O_vin0_fifo_full     (                  ),
 
@@ -382,6 +396,28 @@ i2c_config i2c_config_m0(
 	.i2c_sda                    (cmos_2_sda               )
 );
 
+wire[9:0]                       lut_index_2;
+wire[31:0]                      lut_data_2;
+//configure look-up table
+lut_ov5640_rgb565_1280_720 lut_ov5640_rgb565_1280_720_m1(
+	.lut_index                  (lut_index_2                ),
+	.lut_data                   (lut_data_2                 )
+);
+//I2C master controller
+i2c_config i2c_config_m1(
+	.rst                        (~reset_n                  ),
+	.clk                        (clk                      ),
+	.clk_div_cnt                (16'd500                  ),
+	.i2c_addr_2byte             (1'b1                     ),
+	.lut_index                  (lut_index_2                ),
+	.lut_dev_addr               (lut_data_2[31:24]          ),
+	.lut_reg_addr               (lut_data_2[23:8]           ),
+	.lut_reg_data               (lut_data_2[7:0]            ),
+	.error                      (                         ),
+	.done                       (                         ),
+	.i2c_scl                    (cmos_1_scl               ),
+	.i2c_sda                    (cmos_1_sda               )
+);
 //===============================MIPI CSI-2=====================================
 wire O_FV_START_o;
 wire O_FV_END_o;

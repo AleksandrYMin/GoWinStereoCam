@@ -115,6 +115,11 @@ IO_LOC "cmos_2_scl" F14;
 IO_LOC "cmos_2_sda" F16;
 IO_PORT "cmos_2_scl" IO_TYPE=LVCMOS25;
 IO_PORT "cmos_2_sda" IO_TYPE=LVCMOS25;
+
+IO_LOC "cmos_1_scl" G14;
+IO_LOC "cmos_1_sda" G15;
+IO_PORT "cmos_1_scl" IO_TYPE=LVCMOS25;
+IO_PORT "cmos_1_sda" IO_TYPE=LVCMOS25;
 //====================DDR3==================
 
 IO_LOC "ddr_bank[2]" H5;
