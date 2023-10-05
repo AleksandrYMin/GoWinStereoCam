@@ -1,0 +1,94 @@
+<?xml version="1" encoding="UTF-8"?>
+<GAO_CONFIG>
+    <Version>3.0</Version>
+    <Mode>Standard</Mode>
+    <AoCore index="0" sample_clock="clk324" trig_type="0" storage_depth="8192" window_num="1" capture_amount="8192" trigger_pos="0" module_name="blinkTest" force_trigger_by_falling_edge="false">
+        <SignalList>
+            <Bus name="cam_2_db[7:0]">
+                <Signal>cam_2_db[7]</Signal>
+                <Signal>cam_2_db[6]</Signal>
+                <Signal>cam_2_db[5]</Signal>
+                <Signal>cam_2_db[4]</Signal>
+                <Signal>cam_2_db[3]</Signal>
+                <Signal>cam_2_db[2]</Signal>
+                <Signal>cam_2_db[1]</Signal>
+                <Signal>cam_2_db[0]</Signal>
+            </Bus>
+            <Signal>cam_2_vsync</Signal>
+            <Signal>cam_2_href</Signal>
+            <Signal>cam_2_pclk</Signal>
+            <Signal>clk324</Signal>
+            <Bus name="cmos_8_16bit_m1/pdata_o[15:0]">
+                <Signal>cmos_8_16bit_m1/pdata_o[15]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[14]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[13]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[12]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[11]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[10]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[9]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[8]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[7]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[6]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[5]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[4]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[3]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[2]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[1]</Signal>
+                <Signal>cmos_8_16bit_m1/pdata_o[0]</Signal>
+            </Bus>
+            <Signal>cmos_2_16bit_wr</Signal>
+            <Signal>cmos_2_16bit_clk</Signal>
+            <Signal>tp0_vs_in</Signal>
+            <Signal>tp0_hs_in</Signal>
+            <Signal>tp0_de_in</Signal>
+        </SignalList>
+        <Triggers>
+            <Trigger index="0">
+                <SignalList>
+                    <Signal>hs_data_en</Signal>
+                </SignalList>
+            </Trigger>
+            <Trigger index="1">
+                <SignalList>
+                    <Signal>cam_2_href</Signal>
+                </SignalList>
+            </Trigger>
+            <Trigger index="2"/>
+            <Trigger index="3"/>
+            <Trigger index="4"/>
+            <Trigger index="5"/>
+            <Trigger index="6"/>
+            <Trigger index="7"/>
+            <Trigger index="8"/>
+            <Trigger index="9"/>
+            <Trigger index="10"/>
+            <Trigger index="11"/>
+            <Trigger index="12"/>
+            <Trigger index="13"/>
+            <Trigger index="14"/>
+            <Trigger index="15"/>
+        </Triggers>
+        <MatchUnits>
+            <MatchUnit index="0" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="1" value1="0" trigger="0"/>
+            <MatchUnit index="1" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="1" value1="0" trigger="1"/>
+            <MatchUnit index="2" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="3" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="4" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="5" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="6" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="7" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="8" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="9" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="10" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="11" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="12" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="13" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="14" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="15" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+        </MatchUnits>
+        <Expressions type="Static">
+            <Expression>M1</Expression>
+        </Expressions>
+    </AoCore>
+    <GAO_ID>1000100111100011</GAO_ID>
+</GAO_CONFIG>

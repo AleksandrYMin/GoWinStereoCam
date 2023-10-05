@@ -1,0 +1,311 @@
+//Copyright (C)2014-2023 Gowin Semiconductor Corporation.
+//All rights reserved.
+//File Title: Post-PnR Simulation Model file
+//GOWIN Version: V1.9.9 Beta-3
+//Created Time: Wed Sep 20 12:00:01 2023
+
+`timescale 100 ps/100 ps
+module MIPI_TX_Advance_Top(
+	reset_n,
+	clk_data,
+	clk_bit,
+	clk_bit_90,
+	sclk,
+	data_in1,
+	data_in0,
+	lp_clk_out,
+	lp_clk_dir,
+	lp_data1_out,
+	lp_data1_dir,
+	lp_data0_out,
+	lp_data0_dir,
+	hs_clk_en,
+	hs_data_en,
+	HS_CLK_P,
+	HS_CLK_N,
+	HS_DATA1_P,
+	HS_DATA1_N,
+	HS_DATA0_P,
+	HS_DATA0_N,
+	lp_clk_in,
+	lp_data1_in,
+	lp_data0_in,
+	LP_CLK,
+	LP_DATA1,
+	LP_DATA0
+);
+input reset_n;
+input [7:0] clk_data;
+input clk_bit;
+input clk_bit_90;
+input sclk;
+input [7:0] data_in1;
+input [7:0] data_in0;
+input [1:0] lp_clk_out;
+input lp_clk_dir;
+input [1:0] lp_data1_out;
+input lp_data1_dir;
+input [1:0] lp_data0_out;
+input lp_data0_dir;
+input hs_clk_en;
+input hs_data_en;
+output HS_CLK_P;
+output HS_CLK_N;
+output HS_DATA1_P;
+output HS_DATA1_N;
+output HS_DATA0_P;
+output HS_DATA0_N;
+output [1:0] lp_clk_in;
+output [1:0] lp_data1_in;
+output [1:0] lp_data0_in;
+inout [1:0] LP_CLK;
+inout [1:0] LP_DATA1;
+inout [1:0] LP_DATA0;
+wire GND;
+wire HS_CLK_N;
+wire HS_CLK_P;
+wire HS_DATA0_N;
+wire HS_DATA0_P;
+wire HS_DATA1_N;
+wire HS_DATA1_P;
+wire [1:0] LP_CLK;
+wire LP_CLK_0_5;
+wire [1:0] LP_DATA0;
+wire LP_DATA0_0_5;
+wire [1:0] LP_DATA1;
+wire LP_DATA1_0_5;
+wire VCC;
+wire clk_bit;
+wire clk_bit_90;
+wire [7:0] clk_data;
+wire [7:0] data_in0;
+wire [7:0] data_in1;
+wire hs_clk_en;
+wire hs_data_en;
+wire lp_clk_dir;
+wire [1:0] lp_clk_in;
+wire [1:0] lp_clk_out;
+wire lp_data0_dir;
+wire [1:0] lp_data0_in;
+wire [1:0] lp_data0_out;
+wire lp_data1_dir;
+wire [1:0] lp_data1_in;
+wire [1:0] lp_data1_out;
+wire n16_6;
+wire n17_6;
+wire n26_6;
+wire n27_6;
+wire n6_6;
+wire n7_6;
+wire reset_n;
+wire sclk;
+wire \DPHY_TX_INST/n42_7 ;
+wire \DPHY_TX_INST/u_oserx4x8/buf_clkout ;
+wire \DPHY_TX_INST/u_oserx4x8/buf_clkoe ;
+wire \DPHY_TX_INST/u_oserx4x8/buf_douto1 ;
+wire \DPHY_TX_INST/u_oserx4x8/buf_doutoe1 ;
+wire \DPHY_TX_INST/u_oserx4x8/buf_douto0 ;
+wire \DPHY_TX_INST/u_oserx4x8/buf_doutoe0 ;
+wire \DPHY_TX_INST/u_oserx4x8/n32_6 ;
+wire \DPHY_TX_INST/u_oserx4x8/n41_6 ;
+VCC VCC_cZ (
+  .V(VCC)
+);
+GND GND_cZ (
+  .G(GND)
+);
+GSR GSR (
+	.GSRI(VCC)
+);
+IOBUF LP_CLK_0_iobuf (
+	.I(n7_6),
+	.OEN(LP_CLK_0_5),
+	.IO(LP_CLK[0]),
+	.O(lp_clk_in[0])
+);
+IOBUF LP_CLK_1_iobuf (
+	.I(n6_6),
+	.OEN(LP_CLK_0_5),
+	.IO(LP_CLK[1]),
+	.O(lp_clk_in[1])
+);
+IOBUF LP_DATA1_0_iobuf (
+	.I(n27_6),
+	.OEN(LP_DATA1_0_5),
+	.IO(LP_DATA1[0]),
+	.O(lp_data1_in[0])
+);
+IOBUF LP_DATA1_1_iobuf (
+	.I(n26_6),
+	.OEN(LP_DATA1_0_5),
+	.IO(LP_DATA1[1]),
+	.O(lp_data1_in[1])
+);
+IOBUF LP_DATA0_0_iobuf (
+	.I(n17_6),
+	.OEN(LP_DATA0_0_5),
+	.IO(LP_DATA0[0]),
+	.O(lp_data0_in[0])
+);
+IOBUF LP_DATA0_1_iobuf (
+	.I(n16_6),
+	.OEN(LP_DATA0_0_5),
+	.IO(LP_DATA0[1]),
+	.O(lp_data0_in[1])
+);
+TLVDS_TBUF \DPHY_TX_INST/u_oserx4x8/U0_OB  (
+	.I(\DPHY_TX_INST/u_oserx4x8/buf_clkout ),
+	.OEN(\DPHY_TX_INST/u_oserx4x8/buf_clkoe ),
+	.O(HS_CLK_P),
+	.OB(HS_CLK_N)
+);
+TLVDS_TBUF \DPHY_TX_INST/u_oserx4x8/U1_OB1  (
+	.I(\DPHY_TX_INST/u_oserx4x8/buf_douto1 ),
+	.OEN(\DPHY_TX_INST/u_oserx4x8/buf_doutoe1 ),
+	.O(HS_DATA1_P),
+	.OB(HS_DATA1_N)
+);
+TLVDS_TBUF \DPHY_TX_INST/u_oserx4x8/U1_OB0  (
+	.I(\DPHY_TX_INST/u_oserx4x8/buf_douto0 ),
+	.OEN(\DPHY_TX_INST/u_oserx4x8/buf_doutoe0 ),
+	.O(HS_DATA0_P),
+	.OB(HS_DATA0_N)
+);
+INV \DPHY_TX_INST/n42_s2  (
+	.I(reset_n),
+	.O(\DPHY_TX_INST/n42_7 )
+);
+OSER8 \DPHY_TX_INST/u_oserx4x8/U6_OSER8  (
+	.D0(clk_data[0]),
+	.D1(clk_data[1]),
+	.D2(clk_data[2]),
+	.D3(clk_data[3]),
+	.D4(clk_data[4]),
+	.D5(clk_data[5]),
+	.D6(clk_data[6]),
+	.D7(clk_data[7]),
+	.PCLK(sclk),
+	.FCLK(clk_bit_90),
+	.RESET(\DPHY_TX_INST/n42_7 ),
+	.TX0(\DPHY_TX_INST/u_oserx4x8/n32_6 ),
+	.TX1(\DPHY_TX_INST/u_oserx4x8/n32_6 ),
+	.TX2(\DPHY_TX_INST/u_oserx4x8/n32_6 ),
+	.TX3(\DPHY_TX_INST/u_oserx4x8/n32_6 ),
+	.Q0(\DPHY_TX_INST/u_oserx4x8/buf_clkout ),
+	.Q1(\DPHY_TX_INST/u_oserx4x8/buf_clkoe )
+);
+defparam \DPHY_TX_INST/u_oserx4x8/U6_OSER8 .GSREN="false";
+defparam \DPHY_TX_INST/u_oserx4x8/U6_OSER8 .LSREN="true";
+defparam \DPHY_TX_INST/u_oserx4x8/U6_OSER8 .HWL="false";
+defparam \DPHY_TX_INST/u_oserx4x8/U6_OSER8 .TXCLK_POL=1'b0;
+OSER8 \DPHY_TX_INST/u_oserx4x8/U5_OSER81  (
+	.D0(data_in1[0]),
+	.D1(data_in1[1]),
+	.D2(data_in1[2]),
+	.D3(data_in1[3]),
+	.D4(data_in1[4]),
+	.D5(data_in1[5]),
+	.D6(data_in1[6]),
+	.D7(data_in1[7]),
+	.PCLK(sclk),
+	.FCLK(clk_bit),
+	.RESET(\DPHY_TX_INST/n42_7 ),
+	.TX0(\DPHY_TX_INST/u_oserx4x8/n41_6 ),
+	.TX1(\DPHY_TX_INST/u_oserx4x8/n41_6 ),
+	.TX2(\DPHY_TX_INST/u_oserx4x8/n41_6 ),
+	.TX3(\DPHY_TX_INST/u_oserx4x8/n41_6 ),
+	.Q0(\DPHY_TX_INST/u_oserx4x8/buf_douto1 ),
+	.Q1(\DPHY_TX_INST/u_oserx4x8/buf_doutoe1 )
+);
+defparam \DPHY_TX_INST/u_oserx4x8/U5_OSER81 .GSREN="false";
+defparam \DPHY_TX_INST/u_oserx4x8/U5_OSER81 .LSREN="true";
+defparam \DPHY_TX_INST/u_oserx4x8/U5_OSER81 .HWL="false";
+defparam \DPHY_TX_INST/u_oserx4x8/U5_OSER81 .TXCLK_POL=1'b0;
+OSER8 \DPHY_TX_INST/u_oserx4x8/U5_OSER80  (
+	.D0(data_in0[0]),
+	.D1(data_in0[1]),
+	.D2(data_in0[2]),
+	.D3(data_in0[3]),
+	.D4(data_in0[4]),
+	.D5(data_in0[5]),
+	.D6(data_in0[6]),
+	.D7(data_in0[7]),
+	.PCLK(sclk),
+	.FCLK(clk_bit),
+	.RESET(\DPHY_TX_INST/n42_7 ),
+	.TX0(\DPHY_TX_INST/u_oserx4x8/n41_6 ),
+	.TX1(\DPHY_TX_INST/u_oserx4x8/n41_6 ),
+	.TX2(\DPHY_TX_INST/u_oserx4x8/n41_6 ),
+	.TX3(\DPHY_TX_INST/u_oserx4x8/n41_6 ),
+	.Q0(\DPHY_TX_INST/u_oserx4x8/buf_douto0 ),
+	.Q1(\DPHY_TX_INST/u_oserx4x8/buf_doutoe0 )
+);
+defparam \DPHY_TX_INST/u_oserx4x8/U5_OSER80 .GSREN="false";
+defparam \DPHY_TX_INST/u_oserx4x8/U5_OSER80 .LSREN="true";
+defparam \DPHY_TX_INST/u_oserx4x8/U5_OSER80 .HWL="false";
+defparam \DPHY_TX_INST/u_oserx4x8/U5_OSER80 .TXCLK_POL=1'b0;
+LUT1 \DPHY_TX_INST/u_oserx4x8/n32_s2  (
+	.I0(hs_clk_en),
+	.F(\DPHY_TX_INST/u_oserx4x8/n32_6 )
+);
+defparam \DPHY_TX_INST/u_oserx4x8/n32_s2 .INIT=2'h1;
+LUT1 \DPHY_TX_INST/u_oserx4x8/n41_s2  (
+	.I0(hs_data_en),
+	.F(\DPHY_TX_INST/u_oserx4x8/n41_6 )
+);
+defparam \DPHY_TX_INST/u_oserx4x8/n41_s2 .INIT=2'h1;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/LP_CLK_0_s2  (
+	.I0(hs_clk_en),
+	.I1(lp_clk_dir),
+	.F(LP_CLK_0_5)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/LP_CLK_0_s2 .INIT=4'h1;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/LP_DATA1_0_s2  (
+	.I0(hs_data_en),
+	.I1(lp_data1_dir),
+	.F(LP_DATA1_0_5)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/LP_DATA1_0_s2 .INIT=4'h1;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/LP_DATA0_0_s2  (
+	.I0(hs_data_en),
+	.I1(lp_data0_dir),
+	.F(LP_DATA0_0_5)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/LP_DATA0_0_s2 .INIT=4'h1;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/n6_s2  (
+	.I0(hs_clk_en),
+	.I1(lp_clk_out[1]),
+	.F(n6_6)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/n6_s2 .INIT=4'h4;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/n7_s2  (
+	.I0(hs_clk_en),
+	.I1(lp_clk_out[0]),
+	.F(n7_6)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/n7_s2 .INIT=4'h4;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/n16_s2  (
+	.I0(hs_data_en),
+	.I1(lp_data0_out[1]),
+	.F(n16_6)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/n16_s2 .INIT=4'h4;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/n17_s2  (
+	.I0(hs_data_en),
+	.I1(lp_data0_out[0]),
+	.F(n17_6)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/n17_s2 .INIT=4'h4;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/n26_s2  (
+	.I0(hs_data_en),
+	.I1(lp_data1_out[1]),
+	.F(n26_6)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/n26_s2 .INIT=4'h4;
+LUT2 \DPHY_TX_INST/u_IO_Ctrl_TX/n27_s2  (
+	.I0(hs_data_en),
+	.I1(lp_data1_out[0]),
+	.F(n27_6)
+);
+defparam \DPHY_TX_INST/u_IO_Ctrl_TX/n27_s2 .INIT=4'h4;
+endmodule

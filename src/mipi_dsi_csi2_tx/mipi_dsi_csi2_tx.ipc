@@ -1,0 +1,25 @@
+[General]
+ipc_version=4
+file=mipi_dsi_csi2_tx
+module=MIPI_DSI_CSI2_TX_Top
+target_device=gw2a18c-011
+type=mipi_dsi_csi2_tx
+version=1.0
+
+[Config]
+Byte_Clk_Freq=81.0
+CSI-2=true
+DSI=false
+DSI_Vide_Mode=Non-burst Mode with Sync Pulses
+DSI_With_EoTP=true
+Generate_Packet_CRC=true
+LANG=0
+Mode_1_16=false
+Mode_1_8=true
+Number_of_RX_Lanes=2
+Synthesis_tool=GowinSynthesis
+THS_EXIT=9
+THS_PREPARE=4
+THS_TAIL=6
+THS_ZERO=9
+TLPX=5
