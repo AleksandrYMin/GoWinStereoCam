@@ -1,4 +1,5 @@
 impl/
 FPGA/impl/
-SteraoCam/bin/
-SteraoCam/obj/
+raspiraw/SteraoCam/bin/
+raspiraw/SteraoCam/obj/
+raspiraw/.vs/
