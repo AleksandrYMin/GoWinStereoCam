@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33927.289
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SteraoCam", "SteraoCam\SteraoCam.vcxproj", "{A2B27649-BFB6-482C-AA4A-7BC8233F6552}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Debug|ARM.Build.0 = Debug|ARM
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Debug|ARM.Deploy.0 = Debug|ARM
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Debug|ARM64.Build.0 = Debug|ARM64
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Release|ARM.ActiveCfg = Release|ARM
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Release|ARM.Build.0 = Release|ARM
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Release|ARM.Deploy.0 = Release|ARM
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Release|ARM64.ActiveCfg = Release|ARM64
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Release|ARM64.Build.0 = Release|ARM64
+		{A2B27649-BFB6-482C-AA4A-7BC8233F6552}.Release|ARM64.Deploy.0 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4F5F0662-D802-4293-BD10-B715BF84BAB1}
+	EndGlobalSection
+EndGlobal
