@@ -1,7 +1,7 @@
 # GoWinStereoCam
 Stereo camera with MIPI CSI-2 interface, based on [SiPEED TangPrimer 20K](https://wiki.sipeed.com/hardware/en/tang/tang-primer-20k/primer-20k.html) module and two OV5640 cameras.
 
-GoWin TangPrimer board transmits 1280х720 image via two line MIPI CSI-2 interface, connected to Raspberry Pi.
+Top module is ledBlink.v. GoWin TangPrimer board transmits 1280х720 image via two line MIPI CSI-2 interface, connected to Raspberry Pi.
 Video received with modified raspiraw app (original code [here](https://github.com/raspberrypi/raspiraw)).
 Changed modes 6 and 7 for imx219, added gstreamer plugin by HermannSW from [here](https://forums.raspberrypi.com//viewtopic.php?f=43&t=197124&p=1236528).
 
